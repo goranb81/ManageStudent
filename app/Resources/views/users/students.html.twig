@@ -1,0 +1,72 @@
+{# empty Twig template #}
+{% extends "users/userpage.html.twig" %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <link href="//cdn.datatables.net/1.10.12/css/jquery.dataTables.min.css" rel="stylesheet"/>
+
+{% endblock %}
+
+{% block third %}
+
+    {# Students table #}
+    <div id="table">
+        <table id="datatables">
+
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Birth date</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for student in students%}
+                    <tr>
+                        <td class="name-field" ><button data-url="{{ path('get_all_exams') }}" type="button" class="btn btn-link" id="student-link" data-id="{{ student.id }}">{{ student.name }}</button></td>
+                        <td class="date-field">{{ student.dateofbirth | date('Y-m-d') }}</td>
+                    </tr>
+                {% endfor%}
+            </tbody>
+        </table>
+    </div>
+
+    {# Table modal #} 
+
+    <div class="modal fade in" id="tableModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+
+        <div class="modal-dialog">
+            <div class="modal-content modal-edit">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal"> <span aria-hidden="true" class="">×   </span><span class="sr-only">Close</span>
+
+                    </button>
+                    <h4 class="modal-title" id="myModalLabel">Passed exams</h4>
+
+                </div>
+                <div class="table-modal-body modal-body">
+                    <table id="datatables1">
+                        <thead>
+                            <tr>
+                                <th>Exam Name</th>
+                                <th>Pass Date</th>
+                                <th>Mark</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            
+                        </tbody>
+                    </table>    
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
+
+
+
+
+{% block javascripts %}
+    {{ parent() }}
+    <script type="text/javascript" src="{{ asset('bundles/AppBundle/js/user_page/students.js') }}"></script>
+{% endblock %}

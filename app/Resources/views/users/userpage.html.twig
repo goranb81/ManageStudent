@@ -1,0 +1,32 @@
+{# empty Twig template #}
+{% extends "base.html.twig" %}
+
+{% block stylesheets %}
+    {{ parent() }}
+{% endblock %}
+
+{% block body %}
+    <div class="container">
+        <div clas="row">
+            <div style="padding-top: 30px; padding-bottom: 30px">
+                <ul style="margin-left:50px" class="nav nav-pills style1 page-text">
+                    <li><a href="/ManageStudent/web/users/students">Students</a></li>    
+                    <li><a href="/ManageStudent/web/users/exams">Exams</a></li>
+                </ul>  
+            </div>
+        </div>
+        <div clas="row">
+            {% block third %}
+                <div class="col-md-12" style="padding-top: 30px; padding-bottom: 30px">
+                    <h4  style="text-align: center; margin: 200px">Choose one of the option from navigation bar</h2>
+                </div>  
+            {% endblock%}
+        </div> 
+    </div>    
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script type="text/javascript" src="{{ asset('bundles/AppBundle/bootstrap/js/bootstrap-confirmation.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('bundles/AppBundle/bootstrap/js/bootstrap-confirmation.js') }}"></script>
+{% endblock %}

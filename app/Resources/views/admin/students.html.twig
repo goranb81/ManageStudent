@@ -1,0 +1,153 @@
+{# empty Twig template #}
+
+{% extends "/admin/adminpage.html.twig" %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <link href="//cdn.datatables.net/1.10.12/css/jquery.dataTables.min.css" rel="stylesheet"/>
+
+{% endblock %}
+
+{% block third %}
+
+
+    {# Students table #}
+    <div id="table">
+        <table id="datatables">
+
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Birth date</th>
+                    <th>Edit</th>
+                    <th>Delete</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for student in students%}
+                    <tr>
+                        <td class="name-field">{{ student.name }}</td>
+                        <td class="date-field">{{ student.dateofbirth | date('Y-m-d') }}</td>
+                        <td><button id="edit" class="btn edit" data-toggle="modal" data-id="{{ student.id }}"  >Edit</button></td>
+                        <td> <button id="delete" data-url="{{ path('students_delete') }}" class="btn " data-id="{{ student.id }}">Delete</button></td>
+                    </tr>
+                {% endfor%}
+            </tbody>
+        </table>
+    </div>
+
+    {# Edit modal #}        
+    <div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+
+        <div class="modal-dialog">
+            <div class="modal-content modal-edit">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal"> <span aria-hidden="true" class="">×   </span><span class="sr-only">Close</span>
+
+                    </button>
+                    <h4 class="modal-title" id="myModalLabel">Edit student</h4>
+
+                </div>
+                <div class="modal-body">
+                    <form>
+                        <div class="form-group row">
+                            <label for="name-text-input" class="col-xs-2 col-form-label">Name</label>
+                            <div class="col-xs-10">
+                                <input class="form-control" type="text" id="name-text-input" data-validation="length alphanumeric" data-validation-length="min3"/>
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label for="example-date-input" class="col-xs-2 col-form-label">Date of birth</label>
+                            <div class="col-xs-10">
+                                <input class="form-control" type="date" id="birth-date-input" data-validation="date"/>
+                            </div>
+                        </div>
+                    </form>    
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <button id="savebtn" data-id="0" type="button" class="btn btn-primary">Save changes</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {# Add button#}
+    <button id="add" class="btn add" data-toggle="modal"  {# data-target="#addModal" #}>Add</button>            
+
+    {# Add modal #}        
+    <div class="modal fade" id="addModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+
+        <div class="modal-dialog">
+            <div class="modal-content modal-edit">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal"> <span aria-hidden="true" class="">×   </span><span class="sr-only">Close</span>
+
+                    </button>
+                    <h4 class="modal-title" id="myModalLabel">Add student</h4>
+
+                </div>
+                <div class="modal-body">
+                    <form>
+                        <div class="form-group row">
+                            <label for="add-text-input" class="col-xs-2 col-form-label">Name</label>
+                            <div class="col-xs-10">
+                                <input class="form-control" type="text" id="add-text-input" name="studentname"/>
+                                <p id="name-error"></p>
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label for="add-date-input" class="col-xs-2 col-form-label">Date of birth</label>
+                            <div class="col-xs-10">
+                                <input class="form-control" type="date" id="add-date-input" name="studentdate"/>
+                                <p id="date-error"></p>
+                            </div>
+                        </div>
+                    </form>    
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <button id="addsavebtn" data-url="{{ path('students_new') }}" type="button" class="btn btn-primary">Add</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {# alert modal #}        
+    <div class="modal fade in" id="alertModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal"> <span aria-hidden="true" class="">×   </span><span class="sr-only">Close</span>
+
+                    </button>
+                    <h4 class="modal-title" id="myModalLabel">alert</h4>
+
+                </div>
+                <div class="modal-body">
+                    {#<form>
+                        <div class="form-group row">
+                            <label id="alertid" for="add-text-input" class="col-xs-2 col-form-label"></label>
+                        </div>
+                    </form>#}
+                    <p class="col-xs-2 col-form-label"></p>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+
+
+
+{% block javascripts %}
+    {{ parent() }}
+
+    <script type="text/javascript" src="{{ asset('bundles/AppBundle/jQuery/jquery.validate.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('bundles/AppBundle/bootstrap/js/bootbox.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('bundles/AppBundle/bootstrap/js/bootstrap-confirmation.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('bundles/AppBundle/js/admin_page/students.js') }}"></script>
+{% endblock %}

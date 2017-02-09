@@ -1,0 +1,39 @@
+{# 
+    adminpage is base page that inherit student and passedexams
+#}
+{% extends "base.html.twig" %}
+
+{% block stylesheets %}
+    {{ parent() }}
+{% endblock %}
+
+{% block body %}
+    <div class="container">
+        <div clas="row">
+            <div class="col-md-8" style="padding-top: 30px; padding-bottom: 30px">
+                <ul style="margin-left:50px" class="nav nav-pills">
+                    <li><a href='/ManageStudent/web/admin/student'>Manage students</a></li>
+                    <li><a href='/ManageStudent/web/admin/passedexams'>Manage exams</a></li>
+                </ul>
+            </div>
+            <div class="col-md-4">
+                <a href="/ManageStudent/web/logout" class="btn btn-info" role="button">logout</a>
+            </div>
+        </div>
+            <div clas="row">
+                {% block third %}
+                    <div class="col-md-12" style="padding-top: 30px; padding-bottom: 30px">
+                        <h4  style="text-align: center; margin: 200px">Choose one of the option from navigation bar</h2>
+                    </div>  
+                {% endblock%}
+            </div>
+    </div>
+
+{% endblock %}
+
+
+{% block javascripts %}
+    {{ parent() }}
+    <script type="text/javascript" src="{{ asset('bundles/AppBundle/bootstrap/js/bootstrap-confirmation.js') }}"></script>
+{% endblock %}
+

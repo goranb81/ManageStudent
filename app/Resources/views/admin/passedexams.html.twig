@@ -1,0 +1,193 @@
+{# empty Twig template #}
+
+{% extends "/admin/adminpage.html.twig" %}
+
+{% block stylesheets %}
+    {{ parent() }}
+{% endblock %}
+
+{% block third %}
+
+
+    {# Passedexams table #}
+    <div id="table">
+        <table id="datatables">
+
+            <thead>
+                <tr>
+                    <th>Students Name</th>
+                    <th>Exam Name</th>
+                    <th>Pass Date</th>
+                    <th>Mark</th>
+                    <th>Edit</th>
+                    <th>Delete</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for passedexam in passedexams%}
+                    <tr>
+                        <td class="name-field-stname">{{ passedexam.student.name }}</td>
+                        <td class="name-field-exname">{{ passedexam.exam.name }}</td>
+                        <td class="date-field">{{ passedexam.datepass | date('Y-m-d') }}</td>
+                        <td class="mark-field">{{ passedexam.mark }}</td>
+
+                        <td><button id="edit" class="btn edit" data-toggle="modal" data-id="{{ passedexam.id }}" {#data-target="#myModal"#} >Edit</button></td>
+                        <td> <button id="delete" class="btn " data-url="{{ path('passedexams_delete') }}" data-id="{{ passedexam.id }}">Delete</button></td>
+                    </tr>
+                {% endfor%}
+            </tbody>
+        </table>
+    </div>
+
+    {# Edit modal #}        
+    <div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+
+        <div class="modal-dialog">
+            <div class="modal-content modal-edit">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal"> <span aria-hidden="true" class="">×   </span><span class="sr-only">Close</span>
+
+                    </button>
+                    <h4 class="modal-title" id="myModalLabel">Edit passed exam</h4>
+
+                </div>
+                <div class="modal-body">
+                    <form>
+                        <div class="form-group row">
+                            <label for="example-date-input" class="col-xs-2 col-form-label">Student</label>
+                            <div class="col-xs-10">
+                                <label id="student-label" for="example-date-input" class="col-xs-2 col-form-label"></label>
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label for="example-date-input" class="col-xs-2 col-form-label">Exam</label>
+                            <div class="col-xs-10">
+                                <label id="exam-label" for="example-date-input" class="col-xs-2 col-form-label"></label>
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label for="example-date-input" class="col-xs-2 col-form-label">Pass date</label>
+                            <div class="col-xs-10">
+                                <input class="form-control" type="date" id="birth-date-input"/>
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label for="name-number-input" class="col-xs-2 col-form-label">Mark</label>
+                            <div class="col-xs-10">
+                                <select class="form-control" id="mark-number-input" >
+                                    <option value = "1">1</option>
+                                    <option value = "2">2</option>
+                                    <option value = "3">3</option>
+                                    <option value = "4">4</option>
+                                    <option value = "5">5</option>
+                                    <option value = "6">6</option>
+                                    <option value = "7">7</option>
+                                    <option value = "8">8</option>
+                                    <option value = "9">9</option>
+                                    <option value = "10">10</option>    
+                                </select>
+                                {# <input class="form-control" type="number" id="name-number-input"/> #}
+                            </div>
+                        </div> 
+                    </form>    
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <button id="savebtn" data-url="{{ path('pass_edit') }}" data-toggle="confirmation"  data-id="0" type="button" class="btn btn-primary">Save changes</button>
+                </div>
+            </div>
+        </div>
+    </div> 
+
+    {# Add button#}
+    <button id="add" class="btn add" data-toggle="modal"  data-url="{{ path('all') }}"{# data-target="#addModal" #}>Add</button> 
+
+    {# Add modal #}        
+    <div class="modal fade" id="addModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+
+        <div class="modal-dialog">
+            <div class="modal-content modal-add">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal"> <span aria-hidden="true" class="">×   </span><span class="sr-only">Close</span>
+
+                    </button>
+                    <h4 class="modal-title" id="myModalLabel">Add passed exam</h4>
+
+                </div>
+                <div class="modal-body">
+                    <form>
+                        <div class="form-group row">
+                            <label for="example-date-input" class="col-xs-2 col-form-label">Student</label>
+                            <div class="col-xs-10">
+                                <select class="form-control" id="student_id" name="student">
+                                    {#
+                                    {% for student in students%}
+                                        <option value="{{ student.id }}">{{ student.name }}</option>
+                                    {% endfor %}       
+                                    #}
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label for="example-date-input" class="col-xs-2 col-form-label">Exam</label>
+                            <div class="col-xs-10">
+                                <select class="form-control" id="exam_id" name="exam">
+                                    {#
+                                    {% for exam in exams%}
+                                        <option value="{{ exam.id }}">{{ exam.name }}</option>
+                                    {% endfor %}       
+                                    #}
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label for="example-date-input" class="col-xs-2 col-form-label">Pass date</label>
+                            <div class="col-xs-10">
+                                <input class="form-control" type="date" id="add-exam-date"/>
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label for="name-text-input" class="col-xs-2 col-form-label">Mark</label>
+                            <div class="col-xs-10">
+                                <select class="form-control" id="mark-input">
+                                    <option>1</option>
+                                    <option>2</option>
+                                    <option>3</option>
+                                    <option>4</option>
+                                    <option>5</option>   
+                                    <option>6</option>
+                                    <option>7</option>
+                                    <option>8</option>
+                                    <option>9</option>
+                                    <option>10</option> 
+                                </select>
+
+                                {# <input class="form-control" type="number" id="name-number-input" value="{{ passedexam.mark }}"/> #}
+                            </div>
+                        </div> 
+                    </form>    
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <button id="addsavebtn" data-url="{{ path('passedexam_new') }}" type="button" class="btn btn-primary">Save changes</button>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+
+{% block javascripts %}
+    {{ parent() }}
+
+    <script type="text/javascript" src="{{ asset('bundles/AppBundle/bootstrap/js/bootbox.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('bundles/AppBundle/bootstrap/js/bootstrap-confirmation.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('bundles/AppBundle/js/admin_page/passedexams.js') }}"></script>
+    
+{% endblock %}
